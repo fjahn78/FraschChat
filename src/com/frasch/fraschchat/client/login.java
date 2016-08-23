@@ -1,6 +1,5 @@
 package com.frasch.fraschchat.client;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -12,6 +11,10 @@ import javax.swing.JButton;
 
 public class login extends JFrame {
 
+	/**
+	 * Login Window
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtName;
 	private JTextField txtServer;
