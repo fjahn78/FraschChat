@@ -4,17 +4,18 @@
 package com.frasch.fraschchat.client;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.JButton;
+import javax.swing.border.EmptyBorder;
 
-public class login extends JFrame {
+public class LoginGUI extends JFrame {
 
 	/**
 	 * Login Window
@@ -28,7 +29,7 @@ public class login extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public login() {
+	public LoginGUI() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
@@ -72,15 +73,33 @@ public class login extends JFrame {
 		contentPane.add(lblPort);
 		
 		JButton btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			
+			/* (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+//				System.out.println("Button clicked.");
+				String name = txtName.getText();
+				String address = txtServer.getText();
+				int port = Integer.parseInt(txtPort.getText());
+				login(name, address, port);
+			}
+		});
 		btnLogin.setBounds(61, 174, 89, 23);
 		contentPane.add(btnLogin);
 	}
 	
+	private void login(String name, String address, int port) {
+		
+	}
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					login frame = new login();
+					LoginGUI frame = new LoginGUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
