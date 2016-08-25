@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.frasch.fraschchat.client;
 
 import java.awt.EventQueue;
@@ -7,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JButton;
 
 public class login extends JFrame {
@@ -24,6 +29,11 @@ public class login extends JFrame {
 	 * Create the frame.
 	 */
 	public login() {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		setResizable(false);
 		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
