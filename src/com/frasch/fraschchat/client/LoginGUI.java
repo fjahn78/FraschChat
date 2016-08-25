@@ -79,7 +79,6 @@ public class LoginGUI extends JFrame {
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 			 */
 			public void actionPerformed(ActionEvent arg0) {
-				dispose();
 //				System.out.println("Button clicked.");
 				String name = txtName.getText();
 				String address = txtServer.getText();
@@ -92,7 +91,8 @@ public class LoginGUI extends JFrame {
 	}
 	
 	private void login(String name, String address, int port) {
-		
+		dispose();
+		System.out.println(name+"@"+address+":"+port);
 	}
 
 	public static void main(String[] args) {
