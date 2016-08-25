@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 public class LoginGUI extends JFrame {
 
 	/**
+	 * @author FraSch
 	 * Login Window
 	 */
 	private static final long serialVersionUID = 1L;
@@ -27,6 +28,8 @@ public class LoginGUI extends JFrame {
 	private JTextField txtPort;
 
 	/**
+	 * @author FraSch
+	 * 
 	 * Create the frame.
 	 */
 	public LoginGUI() {
@@ -90,9 +93,19 @@ public class LoginGUI extends JFrame {
 		contentPane.add(btnLogin);
 	}
 	
+	/**
+	 * Calls the chat window
+	 * @author FraSch
+	 * @category GUI
+	 * @param name User name
+	 * @param address Chat Server Address
+	 * @param port Port
+	 * 
+	 */
 	private void login(String name, String address, int port) {
 		dispose();
 		System.out.println(name+"@"+address+":"+port);
+		new ClientGUI(name, address, port);
 	}
 
 	public static void main(String[] args) {
