@@ -1,6 +1,5 @@
 package com.frasch.fraschchat.client;
 
-import java.awt.EventQueue;
 import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
@@ -9,34 +8,28 @@ import javax.swing.border.EmptyBorder;
 
 public class ClientGUI extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ClientGUI frame = new ClientGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
+	/** The m name. */
+	private String name, address;
+	private int port;
 
 	/**
 	 * Create the frame.
+	 * @param port listen port of the server
+	 * @param address server address
+	 * @param name user name
 	 */
-	public ClientGUI() {
+	public ClientGUI(String name, String address, int port) {
+		this.name = name;
+		this.address = address;
+		this.port = port;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setSize(800, 600);
+		setLocationRelativeTo(null);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -46,6 +39,7 @@ public class ClientGUI extends JFrame {
 		gbl_contentPane.columnWeights = new double[]{Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
+		this.setVisible(true);
 	}
 
 }
