@@ -96,7 +96,6 @@ public class LoginGUI extends JFrame {
 	/**
 	 * Calls the chat window
 	 * @author FraSch
-	 * @category GUI
 	 * @param name User name
 	 * @param address Chat Server Address
 	 * @param port Port
