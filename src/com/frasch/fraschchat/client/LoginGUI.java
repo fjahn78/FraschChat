@@ -15,19 +15,40 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LoginGUI.
+ * 
+ * @version %I%  %G%
+ */
 public class LoginGUI extends JFrame {
 
 	/**
-	 * @author FraSch
+	 * The Constant serialVersionUID.
+	 *
 	 * Login Window
+	 * 
+	 * @author FraSch
+	 * @version 	$Id$
+	 * @since		0.0.1
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	/** The content pane. */
 	private JPanel contentPane;
+	
+	/** The txt name. */
 	private JTextField txtName;
+	
+	/** The txt server. */
 	private JTextField txtServer;
+	
+	/** The txt port. */
 	private JTextField txtPort;
 
 	/**
+	 * Instantiates a new login GUI.
+	 *
 	 * @author FraSch
 	 * 
 	 * Create the frame.
@@ -94,12 +115,12 @@ public class LoginGUI extends JFrame {
 	}
 	
 	/**
-	 * Calls the chat window
+	 * Calls the chat window.
+	 *
 	 * @author FraSch
 	 * @param name User name
 	 * @param address Chat Server Address
 	 * @param port Port
-	 * 
 	 */
 	private void login(String name, String address, int port) {
 		dispose();
@@ -107,6 +128,11 @@ public class LoginGUI extends JFrame {
 		new ClientGUI(name, address, port);
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
