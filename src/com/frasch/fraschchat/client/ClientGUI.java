@@ -124,6 +124,8 @@ public class ClientGUI extends JFrame {
 
 	/**
 	 * Send the input to the text area and clear the input field.
+	 *
+	 * @param input the message
 	 */
 	private void doSend(String input) {
 		
