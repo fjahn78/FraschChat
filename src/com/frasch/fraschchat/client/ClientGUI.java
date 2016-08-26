@@ -51,6 +51,8 @@ public class ClientGUI extends JFrame {
 	
 	/** The caret. */
 	private DefaultCaret caret;
+	
+	private Client c;
 
 	/**
 	 * Create the frame.
@@ -64,8 +66,15 @@ public class ClientGUI extends JFrame {
 		this.address = address;
 		this.port = port;
 		
+		c = new Client(name, address, port);
+		
 		createWindow();
-		console("Successfully connected to " + this.address + ":" + this.port + "; user: " + this.name);
+		if (!c.isConnected(this.address, this.port)){
+			System.err.println("Connection to " + this.address + ":" + port + " failed!");
+			console("Connection to " + this.address + ":" + port + " failed!");
+		} else {
+			console("Successfully connected to " + this.address + ":" + this.port + "; user: " + this.name);			
+		}
 	}
 
 	/**
