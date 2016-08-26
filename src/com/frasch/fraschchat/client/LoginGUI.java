@@ -29,7 +29,7 @@ public class LoginGUI extends JFrame {
 	 * Login Window
 	 * 
 	 * @author FraSch
-	 * @version 	$Id$
+	 * @version 	0.0.2_pre-alpha
 	 * @since		0.0.1
 	 */
 	private static final long serialVersionUID = 1L;
