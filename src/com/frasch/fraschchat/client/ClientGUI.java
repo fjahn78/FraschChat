@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.text.DefaultCaret;
 
 public class ClientGUI extends JFrame {
 
@@ -26,6 +27,7 @@ public class ClientGUI extends JFrame {
 	private int port;
 	private JTextArea textArea = new JTextArea();
 	private JTextField txtMessage;
+	private DefaultCaret caret;
 
 	/**
 	 * Create the frame.
@@ -67,8 +69,9 @@ public class ClientGUI extends JFrame {
 		contentPane.setLayout(gbl_contentPane);
 		
 		textArea.setEditable(false);
-		
 		JScrollPane scroll = new JScrollPane(textArea);
+		caret = (DefaultCaret)textArea.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		GridBagConstraints gbc_scroll = new GridBagConstraints();
 		gbc_scroll.gridwidth = 2;
 		gbc_scroll.insets = new Insets(0, 0, 5, 0);
@@ -116,6 +119,7 @@ public class ClientGUI extends JFrame {
 	 */
 	public void console(String message) {
 		textArea.append(message+"\n\r");
+		textArea.setCaretPosition(textArea.getDocument().getLength());
 	}
 
 	/**
