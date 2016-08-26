@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.frasch.fraschchat.client;
 
 import java.awt.Color;
@@ -18,22 +21,43 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.text.DefaultCaret;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ClientGUI.
+ * 
+ * @author		FraSch
+ * @version 	0.0.2_pre-alpha
+ * @since		0.0.1
+ */
 public class ClientGUI extends JFrame {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The content pane. */
 	private JPanel contentPane;
 	
+	/** The address. */
 	private String name, address;
+	
+	/** The port. */
 	private int port;
+	
+	/** The text area. */
 	private JTextArea textArea = new JTextArea();
+	
+	/** The txt message. */
 	private JTextField txtMessage;
+	
+	/** The caret. */
 	private DefaultCaret caret;
 
 	/**
 	 * Create the frame.
-	 * @param port listen port of the server
-	 * @param address server address
+	 *
 	 * @param name user name
+	 * @param address server address
+	 * @param port listen port of the server
 	 */
 	public ClientGUI(String name, String address, int port) {
 		this.name = name;
@@ -45,7 +69,7 @@ public class ClientGUI extends JFrame {
 	}
 
 	/**
-	 * Creates the chat window
+	 * Creates the chat window.
 	 */
 	private void createWindow() {
 		try {
@@ -124,6 +148,8 @@ public class ClientGUI extends JFrame {
 
 	/**
 	 * Send the input to the text area and clear the input field.
+	 *
+	 * @param input the message
 	 */
 	private void doSend(String input) {
 		
