@@ -1,20 +1,21 @@
 package com.frasch.fraschchat.client;
 
 import java.awt.Color;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JButton;
 import javax.swing.JTextField;
-import javax.swing.border.EtchedBorder;
-import javax.swing.JSeparator;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.UIManager;
 
 public class ClientGUI extends JFrame {
 
@@ -66,15 +67,24 @@ public class ClientGUI extends JFrame {
 		contentPane.setLayout(gbl_contentPane);
 		
 		textArea.setEditable(false);
-		GridBagConstraints gbc_textArea = new GridBagConstraints();
-		gbc_textArea.gridwidth = 2;
-		gbc_textArea.insets = new Insets(0, 0, 5, 0);
-		gbc_textArea.fill = GridBagConstraints.BOTH;
-		gbc_textArea.gridx = 0;
-		gbc_textArea.gridy = 0;
-		contentPane.add(textArea, gbc_textArea);
+		
+		JScrollPane scroll = new JScrollPane(textArea);
+		GridBagConstraints gbc_scroll = new GridBagConstraints();
+		gbc_scroll.gridwidth = 2;
+		gbc_scroll.insets = new Insets(0, 0, 5, 0);
+		gbc_scroll.fill = GridBagConstraints.BOTH;
+		gbc_scroll.gridx = 0;
+		gbc_scroll.gridy = 0;
+		contentPane.add(scroll, gbc_scroll);
 		
 		txtMessage = new JTextField();
+		txtMessage.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER)
+					doSend(txtMessage.getText());
+			}
+		});
 		GridBagConstraints gbc_txtMessage = new GridBagConstraints();
 		gbc_txtMessage.insets = new Insets(0, 0, 0, 5);
 		gbc_txtMessage.fill = GridBagConstraints.HORIZONTAL;
@@ -86,7 +96,7 @@ public class ClientGUI extends JFrame {
 		JButton btnSend = new JButton("Send");
 		btnSend.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				doEcho();
+				doSend(txtMessage.getText());
 			}
 
 		});
@@ -111,10 +121,10 @@ public class ClientGUI extends JFrame {
 	/**
 	 * Send the input to the text area and clear the input field.
 	 */
-	private void doEcho() {
-		String input = txtMessage.getText();
-		if (!input.equals("")) 
-			console(name + ": " + input);
+	private void doSend(String input) {
+		
+		if (input.equals("")) return;
+		console(name + ": " + input);
 		txtMessage.setText("");
 		txtMessage.requestFocusInWindow();
 	}
