@@ -74,7 +74,7 @@ public class Client {
 	 *
 	 * @return the string
 	 */
-	private String receive(){
+	public String receive(){
 		byte[] data = new byte[1024];
 		DatagramPacket packet = new DatagramPacket(data, data.length);
 		try {

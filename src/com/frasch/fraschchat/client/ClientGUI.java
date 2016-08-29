@@ -115,8 +115,9 @@ public class ClientGUI extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if (arg0.getKeyCode() == KeyEvent.VK_ENTER){
-					doSend("/m/" + txtMessage.getText());
-					doEcho(name + ": " + txtMessage.getText());
+					String msg = name + ": " + txtMessage.getText();
+					doSend("/m/" + msg);
+					doEcho(msg);
 				}
 			}
 		});
@@ -131,8 +132,9 @@ public class ClientGUI extends JFrame {
 		JButton btnSend = new JButton("Send");
 		btnSend.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				doSend("/m/" + txtMessage.getText());
-				doEcho(name + ": " + txtMessage.getText());
+				String msg = name + ": " + txtMessage.getText();
+				doSend("/m/" + msg);
+				doEcho(msg);
 			}
 
 		});
