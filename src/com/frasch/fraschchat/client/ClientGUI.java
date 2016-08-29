@@ -21,7 +21,6 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.text.DefaultCaret;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ClientGUI.
  * 
