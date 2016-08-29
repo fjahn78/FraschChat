@@ -24,6 +24,8 @@ public class Client {
 	private DatagramSocket socket;
 	private InetAddress inetAddr;
 	
+	private Thread send;
+	
 	
 	public boolean isConnected(String address, int port){
 		try {
@@ -36,6 +38,13 @@ public class Client {
 		
 		return true;
 	}
+	
+	/**
+	 * The method receive listens for new data being sent by a server
+	 *
+	 * @return the string
+	 */
+	@SuppressWarnings("unused")
 	private String receive(){
 		byte[] data = new byte[1024];
 		DatagramPacket packet = new DatagramPacket(data, data.length);
@@ -46,6 +55,30 @@ public class Client {
 		}
 		String message = new String(packet.getData());
 		return message;
+	}
+	
+/**
+ * Send message to a server.
+ *
+ * @param data the data
+ */
+//	@SuppressWarnings("unused")
+	private void send(final byte[] data){
+		send = new Thread("Send"){
+			
+			/* (non-Javadoc)
+			 * @see java.lang.Thread#run()
+			 */
+			public void run(){
+				DatagramPacket p = new DatagramPacket(data, data.length, inetAddr, port);
+				try {
+					socket.send(p);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		send.start();
 	}
 
 	public Client(String name, String address, int port){
