@@ -25,7 +25,7 @@ import javax.swing.text.DefaultCaret;
  * The Class ClientGUI.
  * 
  * @author		FraSch
- * @version 	v0.1.0-alpha
+ * @version 	v0.1.1-alpha
  * @since		0.0.1
  */
 public class ClientGUI extends JFrame {
@@ -61,19 +61,15 @@ public class ClientGUI extends JFrame {
 	 * @param port listen port of the server
 	 */
 	public ClientGUI(String name, String address, int port) {
-		this.name = name;
-		this.address = address;
-		this.port = port;
-		
 		c = new Client(name, address, port);
 		
 		createWindow();
-		if (!c.isConnected(this.address)){
-			System.err.println("Connection to " + this.address + ":" + port + " failed!");
-			console("Connection to " + this.address + ":" + port + " failed!");
+		if (!c.isConnected(address)){
+			System.err.println("Connection to " + address + ":" + port + " failed!");
+			console("Connection to " + address + ":" + port + " failed!");
 		} else {
-			console("Successfully connected to " + this.address + ":" + this.port + "; user: " + this.name);
-			String connection = "/c/" + this.name;
+			console("Successfully connected to " + address + ":" + port + "; user: " + name);
+			String connection = "/c/" + name;
 			doSend(connection);
 		}
 	}
