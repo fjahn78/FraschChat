@@ -8,23 +8,32 @@ package com.frasch.fraschchat.server;
  * @author FraSch
  *
  */
-public class ServerMain implements Runnable {
-
-	/* (non-Javadoc)
-	 * @see java.lang.Runnable#run()
-	 */
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-
+public class ServerMain {
+	private int port;
+	
+	public ServerMain(int port){
+		this.port = port;
 	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		int port;
+		if (args.length != 1){
+			usage();
+			return;
+		}
+		port = Integer.parseInt(args[0]);
+		new ServerMain(port);
 
+	}
+
+	/**
+	 * 
+	 */
+	private static void usage() {
+		System.out.println("Usage: java -jar FraschChatServer.jar [port]");
 	}
 
 }
