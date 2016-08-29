@@ -3,10 +3,17 @@
  */
 package com.frasch.fraschchat.client;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
 /**
- * @author FraSch
- * @version
- * @since
+ * @author		FraSch
+ * @version 	0.0.2_pre-alpha
+ * @since 		0.0.2_pre-alpha
  * @serial
  *
  */
@@ -14,10 +21,66 @@ public class Client {
 	private String name, address;
 	private int port;
 	
+	private DatagramSocket socket;
+	private InetAddress inetAddr;
+	
+	private Thread send;
+	
+	
 	public boolean isConnected(String address, int port){
-		return false;
+		try {
+			socket = new DatagramSocket(port);
+			inetAddr = InetAddress.getByName(address);
+		} catch (UnknownHostException | SocketException e) {
+			e.printStackTrace();
+			return false;
+		}
 		
+		return true;
 	}
+	
+	/**
+	 * The method receive listens for new data being sent by a server
+	 *
+	 * @return the string
+	 */
+	@SuppressWarnings("unused")
+	private String receive(){
+		byte[] data = new byte[1024];
+		DatagramPacket packet = new DatagramPacket(data, data.length);
+		try {
+			socket.receive(packet);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String message = new String(packet.getData());
+		return message;
+	}
+	
+/**
+ * Send message to a server.
+ *
+ * @param data the data
+ */
+//	@SuppressWarnings("unused")
+	private void send(final byte[] data){
+		send = new Thread("Send"){
+			
+			/* (non-Javadoc)
+			 * @see java.lang.Thread#run()
+			 */
+			public void run(){
+				DatagramPacket p = new DatagramPacket(data, data.length, inetAddr, port);
+				try {
+					socket.send(p);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		send.start();
+	}
+
 	public Client(String name, String address, int port){
 		this.name = name;
 		this.address = address;
