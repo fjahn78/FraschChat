@@ -10,9 +10,11 @@ package com.frasch.fraschchat.server;
  */
 public class ServerMain {
 	private int port;
+	private Server server;
 	
 	public ServerMain(int port){
 		this.port = port;
+		server = new Server(port);
 	}
 
 	/**
