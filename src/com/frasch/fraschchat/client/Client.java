@@ -33,6 +33,30 @@ public class Client {
 		this.port = port;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public InetAddress getInetAddr() {
+		return inetAddr;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public void setInetAddr(InetAddress inetAddr) {
+		this.inetAddr = inetAddr;
+	}
+
 	public boolean isConnected(String address){
 		try {
 			socket = new DatagramSocket();
