@@ -12,7 +12,7 @@ public class Server implements Runnable {
 	private DatagramSocket s;
 	private int port;
 	private boolean isRunning = false;
-	private Thread run;
+	private Thread run, manage, send, receive;
 	
 	/**
 	 * @param port
@@ -32,7 +32,32 @@ public class Server implements Runnable {
 	@Override
 	public void run() {
 		isRunning = true;
-		
+		manageClients();
+		receive();
+	}
+
+
+	private void receive() {
+		receive = new Thread("Receive"){
+			public void run(){
+				while (isRunning){
+					// TODO: Listening code
+				}
+			}
+		};
+		receive.start();
+	}
+
+
+	private void manageClients() {
+		manage = new Thread("Manage"){
+			public void run(){
+				while (isRunning){
+					// TODO: Client Management code
+				}
+			}
+		};
+		manage.start();
 	}
 
 }
