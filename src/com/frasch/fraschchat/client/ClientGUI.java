@@ -25,7 +25,7 @@ import javax.swing.text.DefaultCaret;
  * The Class ClientGUI.
  * 
  * @author		FraSch
- * @version 	0.0.2_pre-alpha
+ * @version 	v0.1.0-alpha
  * @since		0.0.1
  */
 public class ClientGUI extends JFrame {

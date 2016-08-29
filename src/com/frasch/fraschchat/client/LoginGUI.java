@@ -18,8 +18,9 @@ import javax.swing.border.EmptyBorder;
 /**
  * The Class LoginGUI.
  * 
- * @version 0.0.2_pre-alpha
- * @since 0.0.1
+ * @author 		Frank Schumann
+ * @version 	v0.1.0-alpha
+ * @since 		0.0.1
  */
 public class LoginGUI extends JFrame {
 

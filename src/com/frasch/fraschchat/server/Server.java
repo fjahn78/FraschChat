@@ -9,22 +9,37 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+// TODO: Auto-generated Javadoc
+/**
+ * @author Frank Schumann
+ * @version v0.1.0-alpha
+ * @since v0.1.0-alpha
+ */
 public class Server implements Runnable {
 	
+	/** The clients. */
 	private List<ServerClient> clients = new ArrayList<ServerClient>();
 
+	/** The socket. */
 	private DatagramSocket s;
+	
+	/** The port. */
 	private int port;
+	
+	/** The is running. */
 	private boolean isRunning = false;
+	
+	/** The receive. */
 	private Thread run, manage, send, receive;
 	
 	/**
-	 * @param port
+	 * Instantiates a new server.
+	 *
+	 * @param port the port
 	 */
 	public Server(int port) {
 		this.port = port;
@@ -38,6 +53,9 @@ public class Server implements Runnable {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		isRunning = true;
@@ -47,6 +65,9 @@ public class Server implements Runnable {
 	}
 
 
+	/**
+	 * Receive.
+	 */
 	private void receive() {
 		receive = new Thread("Receive"){
 			public void run(){
@@ -67,6 +88,11 @@ public class Server implements Runnable {
 	}
 
 
+	/**
+	 * Do process.
+	 *
+	 * @param p the packet
+	 */
 	protected void doProcess(DatagramPacket p) {
 		// TODO Auto-generated method stub
 		String str = new String(p.getData());
@@ -91,6 +117,11 @@ public class Server implements Runnable {
 	}
 
 
+	/**
+	 * Send to all.
+	 *
+	 * @param message the message
+	 */
 	private void sendToAll(String message) {
 		// TODO Auto-generated method stub
 		clients.forEach((c)->send(message.getBytes(), c.inAddr, c.port ));
@@ -98,6 +129,13 @@ public class Server implements Runnable {
 	}
 
 
+	/**
+	 * Send.
+	 *
+	 * @param data the data
+	 * @param inAddr the inet address
+	 * @param port the port
+	 */
 	private void send(final byte[] data, final InetAddress inAddr, final int port) {
 		// TODO Auto-generated method stub
 		send = new Thread("Send"){
@@ -119,6 +157,9 @@ public class Server implements Runnable {
 	}
 
 
+	/**
+	 * Manage clients.
+	 */
 	private void manageClients() {
 		manage = new Thread("Manage"){
 			public void run(){

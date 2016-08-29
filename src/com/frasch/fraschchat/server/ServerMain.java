@@ -4,21 +4,36 @@
  */
 package com.frasch.fraschchat.server;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author FraSch
+ * The Class ServerMain.
  *
+ * @author FraSch
+ * @version v0.1.0-alpha
+ * @since v0.1.0-alpha
  */
 public class ServerMain {
+	
+	/** The port. */
 	private int port;
+	
+	/** The server. */
 	private Server server;
 	
+	/**
+	 * Instantiates a new server main.
+	 *
+	 * @param port the port
+	 */
 	public ServerMain(int port){
 		this.port = port;
 		server = new Server(port);
 	}
 
 	/**
-	 * @param args
+	 * The main method.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		int port;
@@ -32,7 +47,7 @@ public class ServerMain {
 	}
 
 	/**
-	 * 
+	 * Usage.
 	 */
 	private static void usage() {
 		System.out.println("Usage: java -jar FraschChatServer.jar [port]");
