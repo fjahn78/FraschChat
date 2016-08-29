@@ -72,7 +72,9 @@ public class ClientGUI extends JFrame {
 			System.err.println("Connection to " + this.address + ":" + port + " failed!");
 			console("Connection to " + this.address + ":" + port + " failed!");
 		} else {
-			console("Successfully connected to " + this.address + ":" + this.port + "; user: " + this.name);			
+			console("Successfully connected to " + this.address + ":" + this.port + "; user: " + this.name);
+			String connection = name + " connected from " + address;
+			doSend(connection);
 		}
 	}
 
@@ -162,6 +164,14 @@ public class ClientGUI extends JFrame {
 	private void doSend(String input) {
 		
 		if (input.equals("")) return;
+		c.send(input.getBytes());
+		
+	}
+
+	/**
+	 * @param input
+	 */
+	private void doEcho(String input) {
 		console(name + ": " + input);
 		txtMessage.setText("");
 		txtMessage.requestFocusInWindow();

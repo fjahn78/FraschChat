@@ -4,6 +4,8 @@
  */
 package com.frasch.fraschchat.server;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
@@ -26,12 +28,14 @@ public class Server implements Runnable {
 			e.printStackTrace();
 		}
 		run = new Thread(this, "Server");
+		run.start();
 	}
 
 
 	@Override
 	public void run() {
 		isRunning = true;
+		System.out.println("Server running at port: " + port);
 		manageClients();
 		receive();
 	}
@@ -42,6 +46,16 @@ public class Server implements Runnable {
 			public void run(){
 				while (isRunning){
 					// TODO: Listening code
+					byte[] data = new byte[1024];
+					DatagramPacket p = new DatagramPacket(data, data.length);
+					try {
+						s.receive(p);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					String str = new String(p.getData());
+					System.out.println(str);
 				}
 			}
 		};

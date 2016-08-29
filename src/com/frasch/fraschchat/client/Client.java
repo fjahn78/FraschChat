@@ -20,31 +20,37 @@ import java.net.UnknownHostException;
 public class Client {
 	private String name, address;
 	private int port;
-	
+
 	private DatagramSocket socket;
 	private InetAddress inetAddr;
-	
+
 	private Thread send;
-	
-	
+
+
+	public Client(String name, String address, int port){
+		this.name = name;
+		this.address = address;
+		this.port = port;
+	}
+
 	public boolean isConnected(String address, int port){
 		try {
-			socket = new DatagramSocket(port);
+			socket = new DatagramSocket();
 			inetAddr = InetAddress.getByName(address);
 		} catch (UnknownHostException | SocketException e) {
 			e.printStackTrace();
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * The method receive listens for new data being sent by a server
 	 *
 	 * @return the string
 	 */
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
 	private String receive(){
 		byte[] data = new byte[1024];
 		DatagramPacket packet = new DatagramPacket(data, data.length);
@@ -56,19 +62,20 @@ public class Client {
 		String message = new String(packet.getData());
 		return message;
 	}
-	
-/**
- * Send message to a server.
- *
- * @param data the data
- */
-//	@SuppressWarnings("unused")
-	private void send(final byte[] data){
+
+	/**
+	 * Send message to a server.
+	 *
+	 * @param data the data
+	 */
+	//	@SuppressWarnings("unused")
+	void send(final byte[] data){
 		send = new Thread("Send"){
-			
+
 			/* (non-Javadoc)
 			 * @see java.lang.Thread#run()
 			 */
+			@Override
 			public void run(){
 				DatagramPacket p = new DatagramPacket(data, data.length, inetAddr, port);
 				try {
@@ -79,11 +86,5 @@ public class Client {
 			}
 		};
 		send.start();
-	}
-
-	public Client(String name, String address, int port){
-		this.name = name;
-		this.address = address;
-		this.port = port;
 	}
 }
