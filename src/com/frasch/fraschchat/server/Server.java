@@ -8,8 +8,12 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Server implements Runnable {
+	
+	private List<ServerClient> clients = new ArrayList<ServerClient>();
 
 	private DatagramSocket s;
 	private int port;
@@ -24,7 +28,6 @@ public class Server implements Runnable {
 		try {
 			this.s = new DatagramSocket(port);
 		} catch (SocketException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		run = new Thread(this, "Server");
@@ -51,7 +54,6 @@ public class Server implements Runnable {
 					try {
 						s.receive(p);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					String str = new String(p.getData());

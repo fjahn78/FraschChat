@@ -68,7 +68,7 @@ public class ClientGUI extends JFrame {
 		c = new Client(name, address, port);
 		
 		createWindow();
-		if (!c.isConnected(this.address, this.port)){
+		if (!c.isConnected(this.address)){
 			System.err.println("Connection to " + this.address + ":" + port + " failed!");
 			console("Connection to " + this.address + ":" + port + " failed!");
 		} else {
@@ -165,6 +165,7 @@ public class ClientGUI extends JFrame {
 		
 		if (input.equals("")) return;
 		c.send(input.getBytes());
+		doEcho(name + ": " + input);
 		
 	}
 
@@ -172,7 +173,7 @@ public class ClientGUI extends JFrame {
 	 * @param input
 	 */
 	private void doEcho(String input) {
-		console(name + ": " + input);
+		console(input);
 		txtMessage.setText("");
 		txtMessage.requestFocusInWindow();
 	}

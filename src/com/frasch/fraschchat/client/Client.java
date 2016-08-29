@@ -33,7 +33,7 @@ public class Client {
 		this.port = port;
 	}
 
-	public boolean isConnected(String address, int port){
+	public boolean isConnected(String address){
 		try {
 			socket = new DatagramSocket();
 			inetAddr = InetAddress.getByName(address);
@@ -50,7 +50,6 @@ public class Client {
 	 *
 	 * @return the string
 	 */
-	//@SuppressWarnings("unused")
 	private String receive(){
 		byte[] data = new byte[1024];
 		DatagramPacket packet = new DatagramPacket(data, data.length);
