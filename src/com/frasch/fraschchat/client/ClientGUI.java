@@ -21,12 +21,11 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.text.DefaultCaret;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ClientGUI.
  * 
  * @author		FraSch
- * @version 	0.0.2_pre-alpha
+ * @version 	v0.1.0-alpha
  * @since		0.0.1
  */
 public class ClientGUI extends JFrame {
@@ -51,6 +50,8 @@ public class ClientGUI extends JFrame {
 	
 	/** The caret. */
 	private DefaultCaret caret;
+	
+	private Client c;
 
 	/**
 	 * Create the frame.
@@ -64,8 +65,17 @@ public class ClientGUI extends JFrame {
 		this.address = address;
 		this.port = port;
 		
+		c = new Client(name, address, port);
+		
 		createWindow();
-		console("Successfully connected to " + this.address + ":" + this.port + "; user: " + this.name);
+		if (!c.isConnected(this.address)){
+			System.err.println("Connection to " + this.address + ":" + port + " failed!");
+			console("Connection to " + this.address + ":" + port + " failed!");
+		} else {
+			console("Successfully connected to " + this.address + ":" + this.port + "; user: " + this.name);
+			String connection = "/c/" + this.name;
+			doSend(connection);
+		}
 	}
 
 	/**
@@ -108,8 +118,10 @@ public class ClientGUI extends JFrame {
 		txtMessage.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				if (arg0.getKeyCode() == KeyEvent.VK_ENTER)
-					doSend(txtMessage.getText());
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER){
+					doSend("/m/" + txtMessage.getText());
+					doEcho(name + ": " + txtMessage.getText());
+				}
 			}
 		});
 		GridBagConstraints gbc_txtMessage = new GridBagConstraints();
@@ -123,7 +135,8 @@ public class ClientGUI extends JFrame {
 		JButton btnSend = new JButton("Send");
 		btnSend.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				doSend(txtMessage.getText());
+				doSend("/m/" + txtMessage.getText());
+				doEcho(name + ": " + txtMessage.getText());
 			}
 
 		});
@@ -154,7 +167,17 @@ public class ClientGUI extends JFrame {
 	private void doSend(String input) {
 		
 		if (input.equals("")) return;
-		console(name + ": " + input);
+		c.send(input.getBytes());
+		System.out.println(input);
+//		doEcho(name + ": " + input);
+		
+	}
+
+	/**
+	 * @param input The String to be echoed
+	 */
+	private void doEcho(String input) {
+		console(input);
 		txtMessage.setText("");
 		txtMessage.requestFocusInWindow();
 	}

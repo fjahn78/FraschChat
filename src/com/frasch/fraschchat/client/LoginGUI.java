@@ -15,11 +15,12 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class LoginGUI.
  * 
- * @version %I%  %G%
+ * @author 		Frank Schumann
+ * @version 	v0.1.0-alpha
+ * @since 		0.0.1
  */
 public class LoginGUI extends JFrame {
 
