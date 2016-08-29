@@ -7,9 +7,12 @@ package com.frasch.fraschchat.server;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.SocketException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Server implements Runnable {
 	
@@ -71,17 +74,48 @@ public class Server implements Runnable {
 //		System.out.println(type);
 		switch (str.substring(0, 3)) {
 		case "/c/":
-			ServerClient client = new ServerClient(str.substring(3, str.length()), p.getAddress(), p.getPort(), 50);
+			UUID uuid = UUID.randomUUID();
+			ServerClient client = new ServerClient(str.substring(3, str.length()), p.getAddress(), p.getPort(), uuid);
 			clients.add(client);
-			System.out.println("User " + client.name.trim() + " connected from " + client.inAddr.toString() + ":" + client.port );
+			System.out.println("User " + client.name.trim() + " connected from " + 
+					client.inAddr.toString().substring(1) + ":" + client.port );
+//			int id = new SecureRandom().nextInt();
 			break;
 		case "/m/":
-			System.out.println(str.substring(3, str.length()));
+			sendToAll(str);
 			break;
 		default:
 			break;
 		}
 		
+	}
+
+
+	private void sendToAll(String message) {
+		// TODO Auto-generated method stub
+		clients.forEach((c)->send(message.getBytes(), c.inAddr, c.port ));
+		
+	}
+
+
+	private void send(final byte[] data, final InetAddress inAddr, final int port) {
+		// TODO Auto-generated method stub
+		send = new Thread("Send"){
+
+			/* (non-Javadoc)
+			 * @see java.lang.Thread#run()
+			 */
+			@Override
+			public void run(){
+				DatagramPacket p = new DatagramPacket(data, data.length, inAddr, port);
+				try {
+					s.send(p);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		send.start();
 	}
 
 
