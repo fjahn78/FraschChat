@@ -73,7 +73,7 @@ public class ClientGUI extends JFrame {
 			console("Connection to " + this.address + ":" + port + " failed!");
 		} else {
 			console("Successfully connected to " + this.address + ":" + this.port + "; user: " + this.name);
-			String connection = name + " connected from " + address;
+			String connection = "/c/" + this.name;
 			doSend(connection);
 		}
 	}
@@ -118,8 +118,10 @@ public class ClientGUI extends JFrame {
 		txtMessage.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				if (arg0.getKeyCode() == KeyEvent.VK_ENTER)
-					doSend(txtMessage.getText());
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER){
+					doSend("/m/" + txtMessage.getText());
+					doEcho(name + ": " + txtMessage.getText());
+				}
 			}
 		});
 		GridBagConstraints gbc_txtMessage = new GridBagConstraints();
@@ -133,7 +135,8 @@ public class ClientGUI extends JFrame {
 		JButton btnSend = new JButton("Send");
 		btnSend.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				doSend(txtMessage.getText());
+				doSend("/m/" + txtMessage.getText());
+				doEcho(name + ": " + txtMessage.getText());
 			}
 
 		});
@@ -165,7 +168,8 @@ public class ClientGUI extends JFrame {
 		
 		if (input.equals("")) return;
 		c.send(input.getBytes());
-		doEcho(name + ": " + input);
+		System.out.println(input);
+//		doEcho(name + ": " + input);
 		
 	}
 

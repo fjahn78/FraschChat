@@ -56,12 +56,32 @@ public class Server implements Runnable {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					String str = new String(p.getData());
-					System.out.println(str);
+					doProcess(p);
 				}
 			}
 		};
 		receive.start();
+	}
+
+
+	protected void doProcess(DatagramPacket p) {
+		// TODO Auto-generated method stub
+		String str = new String(p.getData());
+//		String type = str.substring(0, 2);
+//		System.out.println(type);
+		switch (str.substring(0, 3)) {
+		case "/c/":
+			ServerClient client = new ServerClient(str.substring(3, str.length()), p.getAddress(), p.getPort(), 50);
+			clients.add(client);
+			System.out.println("User " + client.name.trim() + " connected from " + client.inAddr.toString() + ":" + client.port );
+			break;
+		case "/m/":
+			System.out.println(str.substring(3, str.length()));
+			break;
+		default:
+			break;
+		}
+		
 	}
 
 
