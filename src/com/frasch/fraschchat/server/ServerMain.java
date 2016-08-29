@@ -1,5 +1,4 @@
-/**
- * The ServerMain class serves as command line front end
+/*
  * 
  */
 package com.frasch.fraschchat.server;

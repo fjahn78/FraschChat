@@ -21,50 +21,55 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.text.DefaultCaret;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ClientGUI.
  * 
- * @author		FraSch
- * @version 	v0.1.1-alpha
- * @since		0.0.1
+ * @author FraSch
+ * @version v0.1.1-alpha
+ * @since 0.0.1
  */
 public class ClientGUI extends JFrame {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** The content pane. */
 	private JPanel contentPane;
-	
+
 	/** The address. */
 	private String name, address;
-	
+
 	/** The port. */
 	private int port;
-	
+
 	/** The text area. */
 	private JTextArea textArea = new JTextArea();
-	
+
 	/** The txt message. */
 	private JTextField txtMessage;
-	
+
 	/** The caret. */
 	private DefaultCaret caret;
-	
+
+	/** The c. */
 	private Client c;
 
 	/**
 	 * Create the frame.
 	 *
-	 * @param name user name
-	 * @param address server address
-	 * @param port listen port of the server
+	 * @param name
+	 *            user name
+	 * @param address
+	 *            server address
+	 * @param port
+	 *            listen port of the server
 	 */
 	public ClientGUI(String name, String address, int port) {
 		c = new Client(name, address, port);
-		
+
 		createWindow();
-		if (!c.isConnected(address)){
+		if (!c.isConnected(address)) {
 			System.err.println("Connection to " + address + ":" + port + " failed!");
 			console("Connection to " + address + ":" + port + " failed!");
 		} else {
@@ -87,20 +92,20 @@ public class ClientGUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 600);
 		setLocationRelativeTo(null);
-		
+
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.LIGHT_GRAY);
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0};
-		gbl_contentPane.rowHeights = new int[]{0};
-		gbl_contentPane.columnWeights = new double[]{Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{Double.MIN_VALUE};
+		gbl_contentPane.columnWidths = new int[] { 0 };
+		gbl_contentPane.rowHeights = new int[] { 0 };
+		gbl_contentPane.columnWeights = new double[] { Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { Double.MIN_VALUE };
 		contentPane.setLayout(gbl_contentPane);
-		
+
 		textArea.setEditable(false);
 		JScrollPane scroll = new JScrollPane(textArea);
-		caret = (DefaultCaret)textArea.getCaret();
+		caret = (DefaultCaret) textArea.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		GridBagConstraints gbc_scroll = new GridBagConstraints();
 		gbc_scroll.gridwidth = 2;
@@ -109,12 +114,12 @@ public class ClientGUI extends JFrame {
 		gbc_scroll.gridx = 0;
 		gbc_scroll.gridy = 0;
 		contentPane.add(scroll, gbc_scroll);
-		
+
 		txtMessage = new JTextField();
 		txtMessage.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				if (arg0.getKeyCode() == KeyEvent.VK_ENTER){
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
 					String msg = name + ": " + txtMessage.getText();
 					doSend("/m/" + msg);
 					doEcho(msg);
@@ -128,9 +133,10 @@ public class ClientGUI extends JFrame {
 		gbc_txtMessage.gridy = 1;
 		contentPane.add(txtMessage, gbc_txtMessage);
 		txtMessage.setColumns(10);
-		
+
 		JButton btnSend = new JButton("Send");
 		btnSend.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String msg = name + ": " + txtMessage.getText();
 				doSend("/m/" + msg);
@@ -142,7 +148,7 @@ public class ClientGUI extends JFrame {
 		gbc_btnSend.gridx = 1;
 		gbc_btnSend.gridy = 1;
 		contentPane.add(btnSend, gbc_btnSend);
-		
+
 		this.setVisible(true);
 		txtMessage.requestFocusInWindow();
 	}
@@ -150,29 +156,35 @@ public class ClientGUI extends JFrame {
 	/**
 	 * print the message into the Console text area.
 	 *
-	 * @param message the message
+	 * @param message
+	 *            the message
 	 */
 	public void console(String message) {
-		textArea.append(message+"\n\r");
+		textArea.append(message + "\n\r");
 		textArea.setCaretPosition(textArea.getDocument().getLength());
 	}
 
 	/**
 	 * Send the input to the text area and clear the input field.
 	 *
-	 * @param input the message
+	 * @param input
+	 *            the message
 	 */
 	private void doSend(String input) {
-		
-		if (input.equals("")) return;
+
+		if (input.equals(""))
+			return;
 		c.send(input.getBytes());
 		System.out.println(input);
-//		doEcho(name + ": " + input);
-		
+		// doEcho(name + ": " + input);
+
 	}
 
 	/**
-	 * @param input The String to be echoed
+	 * Do echo.
+	 *
+	 * @param input
+	 *            The String to be echoed
 	 */
 	private void doEcho(String input) {
 		console(input);
