@@ -174,7 +174,7 @@ public class ClientGUI extends JFrame {
 	}
 
 	/**
-	 * @param input
+	 * @param input The String to be echoed
 	 */
 	private void doEcho(String input) {
 		console(input);
