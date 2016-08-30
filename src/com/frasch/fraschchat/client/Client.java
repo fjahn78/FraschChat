@@ -28,6 +28,7 @@ public class Client {
 	/** The port. */
 	private int port;
 
+	/** The uuid. */
 	private UUID uuid;
 
 	/** The socket. */
@@ -39,6 +40,7 @@ public class Client {
 	/** The send. */
 	private Thread send;
 
+	/** The is connected. */
 	public boolean isConnected;
 
 	/**
@@ -106,6 +108,8 @@ public class Client {
 	}
 
 	/**
+	 * Gets the uuid.
+	 *
 	 * @return the uuid
 	 */
 	public UUID getUuid() {
@@ -114,6 +118,8 @@ public class Client {
 
 	/**
 	 * The method receive listens for new data being sent by a server.
+	 *
+	 * @return the string
 	 */
 	public String receive() {
 		byte[] data = new byte[1024];
@@ -188,6 +194,8 @@ public class Client {
 	}
 
 	/**
+	 * Sets the uuid.
+	 *
 	 * @param uuid
 	 *            the uuid to set
 	 */
