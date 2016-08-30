@@ -50,8 +50,36 @@ public class ServerMain {
 	 *            the port
 	 */
 	public ServerMain(int port) {
+		this.setPort(port);
+		setServer(new Server(port));
+	}
+
+	/**
+	 * @return the port
+	 */
+	public int getPort() {
+		return port;
+	}
+
+	/**
+	 * @param port the port to set
+	 */
+	public void setPort(int port) {
 		this.port = port;
-		server = new Server(port);
+	}
+
+	/**
+	 * @return the server
+	 */
+	public Server getServer() {
+		return server;
+	}
+
+	/**
+	 * @param server the server to set
+	 */
+	public void setServer(Server server) {
+		this.server = server;
 	}
 
 }
