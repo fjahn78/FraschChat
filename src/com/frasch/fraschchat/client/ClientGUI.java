@@ -136,7 +136,7 @@ public class ClientGUI extends JFrame implements Runnable {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-					String msg = name + ": " + txtMessage.getText();
+					String msg = c.getName() + ": " + txtMessage.getText();
 					doSend("/m/" + msg);
 					doEcho(msg);
 				}
@@ -152,7 +152,7 @@ public class ClientGUI extends JFrame implements Runnable {
 
 		JButton btnSend = new JButton("Send");
 		btnSend.addActionListener(arg0 -> {
-			String msg = name + ": " + txtMessage.getText();
+			String msg = c.getName() + ": " + txtMessage.getText();
 			doSend("/m/" + msg);
 			doEcho(msg);
 		});
@@ -172,7 +172,7 @@ public class ClientGUI extends JFrame implements Runnable {
 	 *            The String to be echoed
 	 */
 	private void doEcho(String input) {
-		console(input);
+		// console(input);
 		txtMessage.setText("");
 		txtMessage.requestFocusInWindow();
 	}
@@ -186,10 +186,18 @@ public class ClientGUI extends JFrame implements Runnable {
 			public void run() {
 				while (c.isConnected) {
 					String message = c.receive().trim();
-					if (message.startsWith("/c/"))
+					switch (message.substring(0, 3)) {
+					case "/c/":
 						c.setUuid(UUID.fromString(message.substring(3)));
-					console("Successfully connected to " + c.getInetAddr().getHostName() + ":" + c.getPort()
-							+ "\n\rUser: " + c.getName() + "\n\rID: " + c.getUuid());
+						console("Successfully connected to " + c.getInetAddr().getHostName() + ":" + c.getPort()
+								+ "\n\rUser: " + c.getName() + "\n\rID: " + c.getUuid());
+						break;
+					case "/m/":
+						console(message.split("/m/")[1]);
+						break;
+					default:
+						break;
+					}
 				}
 			}
 		};
