@@ -36,12 +36,6 @@ public class ClientGUI extends JFrame implements Runnable {
 	/** The content pane. */
 	private JPanel contentPane;
 
-	/** The address. */
-	private String name, address;
-
-	/** The port. */
-	private int port;
-
 	/** The text area. */
 	private JTextArea textArea = new JTextArea();
 

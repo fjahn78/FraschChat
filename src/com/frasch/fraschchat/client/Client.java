@@ -55,7 +55,7 @@ public class Client {
 	 */
 	public Client(String name, String address, int port) {
 		this.name = name;
-		this.address = address;
+		this.setAddress(address);
 		this.port = port;
 	}
 
@@ -201,5 +201,19 @@ public class Client {
 	 */
 	public void setUuid(UUID uuid) {
 		this.uuid = uuid;
+	}
+
+	/**
+	 * @return the address
+	 */
+	public String getAddress() {
+		return address;
+	}
+
+	/**
+	 * @param address the address to set
+	 */
+	public void setAddress(String address) {
+		this.address = address;
 	}
 }
