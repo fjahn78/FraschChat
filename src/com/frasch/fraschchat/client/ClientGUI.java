@@ -54,6 +54,7 @@ public class ClientGUI extends JFrame implements Runnable {
 	/** The c. */
 	private Client c;
 
+	/** The listen. */
 	private Thread run, listen;
 
 	/**
@@ -176,6 +177,9 @@ public class ClientGUI extends JFrame implements Runnable {
 		txtMessage.requestFocusInWindow();
 	}
 
+	/**
+	 * Do listen.
+	 */
 	public void doListen() {
 		listen = new Thread("Listen") {
 			@Override
@@ -208,6 +212,11 @@ public class ClientGUI extends JFrame implements Runnable {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		doListen();
