@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package com.frasch.fraschchat.client;
 
@@ -7,10 +7,9 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.UUID;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,12 +23,12 @@ import javax.swing.text.DefaultCaret;
 // TODO: Auto-generated Javadoc
 /**
  * The Class ClientGUI.
- * 
+ *
  * @author FraSch
- * @version v0.1.1-alpha
+ * @version v0.2.0-alpha
  * @since 0.0.1
  */
-public class ClientGUI extends JFrame {
+public class ClientGUI extends JFrame implements Runnable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -55,6 +54,8 @@ public class ClientGUI extends JFrame {
 	/** The c. */
 	private Client c;
 
+	private Thread run, listen;
+
 	/**
 	 * Create the frame.
 	 *
@@ -69,14 +70,28 @@ public class ClientGUI extends JFrame {
 		c = new Client(name, address, port);
 
 		createWindow();
-		if (!c.isConnected(address)) {
+		if (!c.doConnect(address)) {
 			System.err.println("Connection to " + address + ":" + port + " failed!");
 			console("Connection to " + address + ":" + port + " failed!");
 		} else {
-			console("Successfully connected to " + address + ":" + port + "; user: " + name);
+			// console("Successfully connected to " + address + ":" + port + ";
+			// user: " + name);
 			String connection = "/c/" + name;
 			doSend(connection);
+			run = new Thread(this, "Running");
+			run.start();
 		}
+	}
+
+	/**
+	 * print the message into the Console text area.
+	 *
+	 * @param message
+	 *            the message
+	 */
+	public void console(String message) {
+		textArea.append(message + "\n\r");
+		textArea.setCaretPosition(textArea.getDocument().getLength());
 	}
 
 	/**
@@ -135,33 +150,46 @@ public class ClientGUI extends JFrame {
 		txtMessage.setColumns(10);
 
 		JButton btnSend = new JButton("Send");
-		btnSend.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				String msg = name + ": " + txtMessage.getText();
-				doSend("/m/" + msg);
-				doEcho(msg);
-			}
-
+		btnSend.addActionListener(arg0 -> {
+			String msg = name + ": " + txtMessage.getText();
+			doSend("/m/" + msg);
+			doEcho(msg);
 		});
 		GridBagConstraints gbc_btnSend = new GridBagConstraints();
 		gbc_btnSend.gridx = 1;
 		gbc_btnSend.gridy = 1;
 		contentPane.add(btnSend, gbc_btnSend);
 
-		this.setVisible(true);
+		setVisible(true);
 		txtMessage.requestFocusInWindow();
 	}
 
 	/**
-	 * print the message into the Console text area.
+	 * Do echo.
 	 *
-	 * @param message
-	 *            the message
+	 * @param input
+	 *            The String to be echoed
 	 */
-	public void console(String message) {
-		textArea.append(message + "\n\r");
-		textArea.setCaretPosition(textArea.getDocument().getLength());
+	private void doEcho(String input) {
+		console(input);
+		txtMessage.setText("");
+		txtMessage.requestFocusInWindow();
+	}
+
+	public void doListen() {
+		listen = new Thread("Listen") {
+			@Override
+			public void run() {
+				while (c.isConnected) {
+					String message = c.receive().trim();
+					if (message.startsWith("/c/"))
+						c.setUuid(UUID.fromString(message.substring(3)));
+					console("Successfully connected to " + c.getInetAddr().getHostName() + ":" + c.getPort()
+							+ "\n\rUser: " + c.getName() + "\n\rID: " + c.getUuid());
+				}
+			}
+		};
+		listen.start();
 	}
 
 	/**
@@ -180,15 +208,8 @@ public class ClientGUI extends JFrame {
 
 	}
 
-	/**
-	 * Do echo.
-	 *
-	 * @param input
-	 *            The String to be echoed
-	 */
-	private void doEcho(String input) {
-		console(input);
-		txtMessage.setText("");
-		txtMessage.requestFocusInWindow();
+	@Override
+	public void run() {
+		doListen();
 	}
 }

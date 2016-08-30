@@ -1,11 +1,9 @@
 /*
- * 
+ *
  */
 package com.frasch.fraschchat.client;
 
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,7 +16,7 @@ import javax.swing.border.EmptyBorder;
 // TODO: Auto-generated Javadoc
 /**
  * The Class LoginGUI.
- * 
+ *
  * @author Frank Schumann
  * @version v0.1.0-alpha
  * @since 0.0.1
@@ -29,12 +27,29 @@ public class LoginGUI extends JFrame {
 	 * The Constant serialVersionUID.
 	 *
 	 * Login Window
-	 * 
+	 *
 	 * @author FraSch
 	 * @version v0.1.1-alpha
 	 * @since 0.0.1
 	 */
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The main method.
+	 *
+	 * @param args
+	 *            the arguments
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(() -> {
+			try {
+				LoginGUI frame = new LoginGUI();
+				frame.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+	}
 
 	/** The content pane. */
 	private JPanel contentPane;
@@ -52,7 +67,7 @@ public class LoginGUI extends JFrame {
 	 * Instantiates a new login GUI.
 	 *
 	 * @author FraSch
-	 * 
+	 *
 	 *         Create the frame.
 	 */
 	public LoginGUI() {
@@ -99,23 +114,12 @@ public class LoginGUI extends JFrame {
 		contentPane.add(lblPort);
 
 		JButton btnLogin = new JButton("Login");
-		btnLogin.addActionListener(new ActionListener() {
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * java.awt.event.ActionListener#actionPerformed(java.awt.event.
-			 * ActionEvent)
-			 */
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// System.out.println("Button clicked.");
-				String name = txtName.getText();
-				String address = txtServer.getText();
-				int port = Integer.parseInt(txtPort.getText());
-				login(name, address, port);
-			}
+		btnLogin.addActionListener(arg0 -> {
+			// System.out.println("Button clicked.");
+			String name = txtName.getText();
+			String address = txtServer.getText();
+			int port = Integer.parseInt(txtPort.getText());
+			login(name, address, port);
 		});
 		btnLogin.setBounds(61, 174, 89, 23);
 		contentPane.add(btnLogin);
@@ -136,25 +140,5 @@ public class LoginGUI extends JFrame {
 		dispose();
 		System.out.println(name + "@" + address + ":" + port);
 		new ClientGUI(name, address, port);
-	}
-
-	/**
-	 * The main method.
-	 *
-	 * @param args
-	 *            the arguments
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					LoginGUI frame = new LoginGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
 	}
 }
