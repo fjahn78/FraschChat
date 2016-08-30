@@ -1,6 +1,5 @@
-/**
- * The class Server manages all client connections and chat transmission
- * 
+/*
+ *
  */
 package com.frasch.fraschchat.server;
 
@@ -15,36 +14,39 @@ import java.util.UUID;
 
 // TODO: Auto-generated Javadoc
 /**
+ * The Class Server.
+ *
  * @author Frank Schumann
- * @version v0.1.0-alpha
+ * @version v0.2.0-alpha
  * @since v0.1.0-alpha
  */
 public class Server implements Runnable {
-	
+
 	/** The clients. */
 	private List<ServerClient> clients = new ArrayList<ServerClient>();
 
 	/** The socket. */
 	private DatagramSocket s;
-	
+
 	/** The port. */
 	private int port;
-	
+
 	/** The is running. */
 	private boolean isRunning = false;
-	
+
 	/** The receive. */
 	private Thread run, manage, send, receive;
-	
+
 	/**
 	 * Instantiates a new server.
 	 *
-	 * @param port the port
+	 * @param port
+	 *            the port
 	 */
 	public Server(int port) {
 		this.port = port;
 		try {
-			this.s = new DatagramSocket(port);
+			s = new DatagramSocket(port);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
@@ -52,26 +54,59 @@ public class Server implements Runnable {
 		run.start();
 	}
 
-
-	/* (non-Javadoc)
-	 * @see java.lang.Runnable#run()
+	/**
+	 * Do process.
+	 *
+	 * @param p
+	 *            the packet
 	 */
-	@Override
-	public void run() {
-		isRunning = true;
-		System.out.println("Server running at port: " + port);
-		manageClients();
-		receive();
+	protected void doProcess(DatagramPacket p) {
+		// TODO Auto-generated method stub
+		String str = new String(p.getData());
+		// String type = str.substring(0, 2);
+		// System.out.println(type);
+		switch (str.substring(0, 3)) {
+		case "/c/":
+			UUID uuid = UUID.randomUUID();
+			ServerClient client = new ServerClient(str.substring(3, str.length()), p.getAddress(), p.getPort(), uuid);
+			clients.add(client);
+			System.out.println("User " + client.name.trim() + " connected from " + client.inAddr.toString().substring(1)
+					+ ":" + client.port);
+			send(("/c/" + uuid.toString()).getBytes(), client.inAddr, client.port);
+			// int id = new SecureRandom().nextInt();
+			break;
+		case "/m/":
+			sendToAll(str);
+			break;
+		default:
+			break;
+		}
+
 	}
 
+	/**
+	 * Manage clients.
+	 */
+	private void manageClients() {
+		manage = new Thread("Manage") {
+			@Override
+			public void run() {
+				while (isRunning) {
+					// TODO: Client Management code
+				}
+			}
+		};
+		manage.start();
+	}
 
 	/**
 	 * Receive.
 	 */
 	private void receive() {
-		receive = new Thread("Receive"){
-			public void run(){
-				while (isRunning){
+		receive = new Thread("Receive") {
+			@Override
+			public void run() {
+				while (isRunning) {
 					// TODO: Listening code
 					byte[] data = new byte[1024];
 					DatagramPacket p = new DatagramPacket(data, data.length);
@@ -87,64 +122,40 @@ public class Server implements Runnable {
 		receive.start();
 	}
 
-
-	/**
-	 * Do process.
+	/*
+	 * (non-Javadoc)
 	 *
-	 * @param p the packet
+	 * @see java.lang.Runnable#run()
 	 */
-	protected void doProcess(DatagramPacket p) {
-		// TODO Auto-generated method stub
-		String str = new String(p.getData());
-//		String type = str.substring(0, 2);
-//		System.out.println(type);
-		switch (str.substring(0, 3)) {
-		case "/c/":
-			UUID uuid = UUID.randomUUID();
-			ServerClient client = new ServerClient(str.substring(3, str.length()), p.getAddress(), p.getPort(), uuid);
-			clients.add(client);
-			System.out.println("User " + client.name.trim() + " connected from " + 
-					client.inAddr.toString().substring(1) + ":" + client.port );
-//			int id = new SecureRandom().nextInt();
-			break;
-		case "/m/":
-			sendToAll(str);
-			break;
-		default:
-			break;
-		}
-		
+	@Override
+	public void run() {
+		isRunning = true;
+		System.out.println("Server running at port: " + port);
+		manageClients();
+		receive();
 	}
-
-
-	/**
-	 * Send to all.
-	 *
-	 * @param message the message
-	 */
-	private void sendToAll(String message) {
-		// TODO Auto-generated method stub
-		clients.forEach((c)->send(message.getBytes(), c.inAddr, c.port ));
-		
-	}
-
 
 	/**
 	 * Send.
 	 *
-	 * @param data the data
-	 * @param inAddr the inet address
-	 * @param port the port
+	 * @param data
+	 *            the data
+	 * @param inAddr
+	 *            the inet address
+	 * @param port
+	 *            the port
 	 */
 	private void send(final byte[] data, final InetAddress inAddr, final int port) {
 		// TODO Auto-generated method stub
-		send = new Thread("Send"){
+		send = new Thread("Send") {
 
-			/* (non-Javadoc)
+			/*
+			 * (non-Javadoc)
+			 *
 			 * @see java.lang.Thread#run()
 			 */
 			@Override
-			public void run(){
+			public void run() {
 				DatagramPacket p = new DatagramPacket(data, data.length, inAddr, port);
 				try {
 					s.send(p);
@@ -156,19 +167,16 @@ public class Server implements Runnable {
 		send.start();
 	}
 
-
 	/**
-	 * Manage clients.
+	 * Send to all.
+	 *
+	 * @param message
+	 *            the message
 	 */
-	private void manageClients() {
-		manage = new Thread("Manage"){
-			public void run(){
-				while (isRunning){
-					// TODO: Client Management code
-				}
-			}
-		};
-		manage.start();
+	private void sendToAll(String message) {
+		// TODO Auto-generated method stub
+		clients.forEach((c) -> send(message.getBytes(), c.inAddr, c.port));
+
 	}
 
 }

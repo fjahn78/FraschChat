@@ -1,6 +1,5 @@
-/**
- * The ServerMain class serves as command line front end
- * 
+/*
+ *
  */
 package com.frasch.fraschchat.server;
 
@@ -13,31 +12,16 @@ package com.frasch.fraschchat.server;
  * @since v0.1.0-alpha
  */
 public class ServerMain {
-	
-	/** The port. */
-	private int port;
-	
-	/** The server. */
-	private Server server;
-	
-	/**
-	 * Instantiates a new server main.
-	 *
-	 * @param port the port
-	 */
-	public ServerMain(int port){
-		this.port = port;
-		server = new Server(port);
-	}
 
 	/**
 	 * The main method.
 	 *
-	 * @param args the arguments
+	 * @param args
+	 *            the arguments
 	 */
 	public static void main(String[] args) {
 		int port;
-		if (args.length != 1){
+		if (args.length != 1) {
 			usage();
 			return;
 		}
@@ -51,6 +35,23 @@ public class ServerMain {
 	 */
 	private static void usage() {
 		System.out.println("Usage: java -jar FraschChatServer.jar [port]");
+	}
+
+	/** The port. */
+	private int port;
+
+	/** The server. */
+	private Server server;
+
+	/**
+	 * Instantiates a new server main.
+	 *
+	 * @param port
+	 *            the port
+	 */
+	public ServerMain(int port) {
+		this.port = port;
+		server = new Server(port);
 	}
 
 }
